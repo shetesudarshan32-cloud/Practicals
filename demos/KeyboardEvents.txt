@@ -1,0 +1,108 @@
+import java.awt.*;
+import java.awt.event.*;
+
+public class KeyboardEvents extends Frame implements KeyListener, ActionListener {
+
+    Label l1, l2, l3, l4, l5, l6;
+    int count = 0;
+    char ch = ' ';
+    String keyPressed = "", keyReleased = "", actionKey = "", extra = "";
+
+    Button start;
+
+    KeyboardEvents() {
+
+        setLayout(null);
+
+        start = new Button("START");
+        start.setBounds(150, 50, 80, 30);
+        add(start);
+
+        start.addActionListener(this);
+
+        l1 = new Label();
+        l1.setBounds(50, 100, 300, 20);
+        add(l1);
+
+        l2 = new Label();
+        l2.setBounds(50, 130, 300, 20);
+        add(l2);
+
+        l3 = new Label();
+        l3.setBounds(50, 160, 300, 20);
+        add(l3);
+
+        l4 = new Label();
+        l4.setBounds(50, 190, 300, 20);
+        add(l4);
+
+        l5 = new Label();
+        l5.setBounds(50, 220, 300, 20);
+        add(l5);
+
+        l6 = new Label();
+        l6.setBounds(50, 250, 300, 20);
+        add(l6);
+
+        addKeyListener(this);
+
+        setSize(400, 400);
+        setVisible(true);
+
+        // Close window
+        addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                dispose();
+            }
+        });
+    }
+
+    public void keyPressed(KeyEvent e) {
+        count++;
+        keyPressed = e.getKeyText(e.getKeyCode());
+
+        if (e.getKeyCode() == KeyEvent.VK_UP)
+            actionKey = "Up Arrow key";
+        else if (e.getKeyCode() == KeyEvent.VK_DOWN)
+            actionKey = "Down Arrow key";
+        else if (e.getKeyCode() == KeyEvent.VK_LEFT)
+            actionKey = "Left Arrow key";
+        else if (e.getKeyCode() == KeyEvent.VK_RIGHT)
+            actionKey = "Right Arrow key";
+        else if (e.getKeyCode() == KeyEvent.VK_ENTER)
+            actionKey = "Enter key";
+
+        updateLabels();
+    }
+
+    public void keyReleased(KeyEvent e) {
+        keyReleased = e.getKeyText(e.getKeyCode());
+        updateLabels();
+    }
+
+    public void keyTyped(KeyEvent e) {
+        ch = e.getKeyChar();
+
+        if (ch == 'x')
+            extra = "The key lower case x was pressed";
+
+        updateLabels();
+    }
+
+    void updateLabels() {
+        l1.setText("Number of keys pressed is : " + count);
+        l2.setText("Character pressed is : " + ch);
+        l3.setText("Key pressed is : " + keyPressed);
+        l4.setText("Key released is : " + keyReleased);
+        l5.setText("Action key pressed is : " + actionKey);
+        l6.setText(extra);
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        requestFocus(); // IMPORTANT for keyboard events
+    }
+
+    public static void main(String[] args) {
+        new KeyboardEvents();
+    }
+}
